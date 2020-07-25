@@ -1,8 +1,23 @@
 <template>
     <div class="bb-navbar">
-        <nuxt-link to="/">Home page</nuxt-link>
-        <nuxt-link to="/list">List page</nuxt-link>
-        <button v-on:click="copyToClipboard()">Share</button>
+        <nuxt-link to="/">
+            <svg viewBox="0 0 100 100">
+                <path d="m92 16-26 9.2812v58l26-9.2812zm-58 0.71875-26 9.2812v58l26-9.2812zm4 0v58l24 8.5625v-58z"/>
+            </svg>
+            <p>Map</p>
+        </nuxt-link>
+        <nuxt-link to="/list">
+            <svg viewBox="0 0 100 100">
+                <path d="m90.625 53.125h-62.5c-1.7266 0-3.125-1.3984-3.125-3.125s1.3984-3.125 3.125-3.125h62.5c1.7266 0 3.125 1.3984 3.125 3.125s-1.3984 3.125-3.125 3.125zm-78.125-9.375c-2.5273 0-4.8086 1.5234-5.7734 3.8594-0.96875 2.3359-0.43359 5.0234 1.3555 6.8086 1.7852 1.7891 4.4727 2.3242 6.8086 1.3555 2.3359-0.96484 3.8594-3.2461 3.8594-5.7734 0-1.6562-0.66016-3.2461-1.832-4.418s-2.7617-1.832-4.418-1.832zm81.25-21.875c0-0.82812-0.32812-1.625-0.91406-2.2109-0.58594-0.58594-1.3828-0.91406-2.2109-0.91406h-62.5c-1.7266 0-3.125 1.3984-3.125 3.125s1.3984 3.125 3.125 3.125h62.5c0.82812 0 1.625-0.32812 2.2109-0.91406 0.58594-0.58594 0.91406-1.3828 0.91406-2.2109zm-75 0c0-2.5273-1.5234-4.8086-3.8594-5.7734-2.3359-0.96875-5.0234-0.43359-6.8086 1.3555-1.7891 1.7852-2.3242 4.4727-1.3555 6.8086 0.96484 2.3359 3.2461 3.8594 5.7734 3.8594 1.6562 0 3.2461-0.66016 4.418-1.832s1.832-2.7617 1.832-4.418zm-6.25 0zm81.25 56.25c0-0.82812-0.32812-1.625-0.91406-2.2109-0.58594-0.58594-1.3828-0.91406-2.2109-0.91406h-62.5c-1.7266 0-3.125 1.3984-3.125 3.125s1.3984 3.125 3.125 3.125h62.5c0.82812 0 1.625-0.32812 2.2109-0.91406 0.58594-0.58594 0.91406-1.3828 0.91406-2.2109zm-75 0c0-2.5273-1.5234-4.8086-3.8594-5.7734-2.3359-0.96875-5.0234-0.43359-6.8086 1.3555-1.7891 1.7852-2.3242 4.4727-1.3555 6.8086 0.96484 2.3359 3.2461 3.8594 5.7734 3.8594 1.6562 0 3.2461-0.66016 4.418-1.832s1.832-2.7617 1.832-4.418zm-6.25 0z"/>
+            </svg>
+            <p>List</p>
+        </nuxt-link>
+        <button v-on:click="copyToClipboard()">
+            <svg viewBox="0 0 100 100">
+                <path d="m54.168 16.328v14.922h25.02c4.5898 0 8.3125 3.7266 8.3125 8.3086v50.051c0 4.5859-3.7188 8.3086-8.3125 8.3086h-58.375c-4.5898 0-8.3125-3.7266-8.3125-8.3086v-50.051c0-4.5898 3.7188-8.3086 8.3125-8.3086h25.02v-14.934l-4.7031 4.7031c-1.6133 1.6133-4.2305 1.6133-5.8672-0.027343-1.6289-1.625-1.6172-4.2734-0.027344-5.8633l11.84-11.84c0.80078-0.80078 1.8516-1.2031 2.9062-1.207l0.03125 0.015625c1.0586 0 2.1094 0.39844 2.9023 1.1914l11.836 11.84c1.6133 1.6133 1.6133 4.2266-0.023438 5.8633-1.6289 1.6289-4.2773 1.6172-5.8672 0.027343zm-8.3359 23.254h-25v50h58.336v-50h-25v16.676c0 2.2969-1.8516 4.1602-4.168 4.1602-2.3008 0-4.168-1.8672-4.168-4.1602zm-12.5-8.332v8.332h33.336v-8.332zm12.5 0h8.3359v8.332h-8.3359z"/>
+            </svg>
+            <p>Share</p>
+        </button>
         <input type="text" id="copyText">
     </div>
 </template>
@@ -10,18 +25,26 @@
 export default {
     methods: {
         copyToClipboard() {
-            var copyText = 'Copied!';
+            let obj = [
+                { what: '4 Tents', where: 'Essex', when: '10:30 AM', lat: 42.1727, long: -82.8189 },
+                { what: '10 Bouncy Castles', where: 'Windsor', when: '4:30 PM', lat: 42.3149, long: -83.0364 },
+                { what: '2 Flamingos', where: 'Amherstburg', when: '1:15 PM', lat: 42.1014, long: -83.1087 },
+            ]
+
+            let encrypted = CryptoJS.AES.encrypt(JSON.stringify(obj), "Secret Passphrase");
+
+            let copyText = window.location.hostname + '/list?list=' + encodeURIComponent(encrypted)
             let testingCodeToCopy = document.querySelector('#copyText')
-            testingCodeToCopy.setAttribute('value', 'Copy ME!!')
+            testingCodeToCopy.setAttribute('value', copyText)
             testingCodeToCopy.setAttribute('type', 'text')
             testingCodeToCopy.select()
 
             try {
                 var successful = document.execCommand('copy');
                 var msg = successful ? 'successful' : 'unsuccessful';
-                alert('Testing code was copied ' + msg);
+                console.log(copyText);
             } catch (err) {
-                alert('Oops, unable to copy');
+                // alert('Oops, unable to copy');
             }
 
             /* unselect the range */
@@ -33,8 +56,58 @@ export default {
 </script>
 <style lang="scss">
     .bb-navbar {
-        background: lightblue;
+        background: #222;
         width: 100%;
-        height: 45px;
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        a, button {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            
+            &.nuxt-link-exact-active {
+                svg {
+                    fill: #9c5eff;
+                }
+
+                p {
+                    color: #9c5eff !important;
+                }
+            }
+
+            svg {
+                width: 45px;
+                height: 45px;
+                padding: 7.5px 7.5px 0;
+                margin: 0 15px 2px;
+                fill: rgba(255, 255, 255, .7);
+            }
+
+            &:last-of-type {
+                svg {
+                    width: 40px;
+                }        
+            }
+
+            p {
+                font-size: 11px;
+                padding-bottom: 7.5px;
+                text-decoration: none;
+            }
+        }
+
+
+
+        #copyText {
+            width: 1px;
+            height: 1px;
+            position: absolute;
+            right: 9999px;
+        }
     }
 </style>

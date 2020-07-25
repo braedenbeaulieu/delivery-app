@@ -13,6 +13,8 @@
             :what="item.what"
             :where="item.where"
             :when="item.when"
+            :lat="item.lat"
+            :long="item.long"
             @on-toggle="toggleItem(item)"
             @on-delete="deleteItem(item)"
             @on-edit="editItem(item, $event)"
@@ -22,8 +24,9 @@
 </template>
 
 <script>
-import Item from '@/components/List/Item.vue';
-import CreateItem from '@/components/List/CreateItem.vue';
+import Item from '@/components/List/Item.vue'
+import CreateItem from '@/components/List/CreateItem.vue'
+import axios from 'axios'
 
 export default {
     name: 'List',
@@ -31,18 +34,19 @@ export default {
         Item,
         CreateItem
     },
-    // data() {
-    //     return {
-    //         items: [
-    //             { what: 'Do the dishes', where: 'yo mamas house', when: '10:30 AM'},
-    //             { what: 'Take out the trash', where: 'yo mamas house', when: '10:30 AM'},
-    //             { what: 'Finish doing laundry', where: 'yo mamas house', when: '10:30 AM'},
-    //         ],
-    //     };
-    // },
     computed: {
         items() {
             return this.$store.state.items.list
+        }
+    },
+    mounted() {
+        if(this.$route.query.list) {
+            let decrypted = CryptoJS.AES.decrypt(this.$route.query.list, 'Secret Passphrase')
+            let queryItems = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
+            
+            queryItems.forEach((item) => {
+                this.addItem(item)
+            })
         }
     },
     methods: {
@@ -52,7 +56,9 @@ export default {
             this.$store.commit('items/add', { 
                 what: newItem.what,
                 where: newItem.where,
-                when: newItem.when
+                when: newItem.when,
+                lat: newItem.lat,
+                long: newItem.long
             })
         },
         deleteItem(deletedItem) {
@@ -64,12 +70,14 @@ export default {
             // item.where = updatedItem.where;
             // item.when = updatedItem.when;
 
-            console.log({ item, updatedItem });
+            // console.log({ item, updatedItem });
 
             this.$store.commit('items/edit', { item, updatedItem })
         },
     },
 }
+
+// http://localhost:3000/list?list=U2FsdGVkX18t0YVSvnnJP5gspc7eE01zuOT4uX2CWXXZeG2Uglzzu6Ox3DCyWuvM%2FoXzWkm4Eb4QjjnAlT%2B5zSQ24gBTG53yucTMAMH0%2BRHSjvNbtrIIsb2h6E7PQuhAGCI%2Fqr3EWoMNQ4WlBCevXIcrAW2Yn71tik6WlDsZkR06YXWxfgbbojBUhOCfjfv%2BnaQtWkIppGvaeIGSfEy0wxn9TdUXt3odYSbgey1aIKRUDRfujr8I0cPW4JU7c6TPXOi%2Fmexd7VAF8wR4XiX1HMiPnjOrY1vtrHT%2BOV8FFwNdHmzA7PN%2BCqGQmJoeOKY%2B
 </script>
 
 <style lang="scss" scoped>

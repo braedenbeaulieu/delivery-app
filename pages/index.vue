@@ -29,15 +29,12 @@
 
 export default {
 	components: {
-	},
+    },
     data() {
 		return {
-			center: { lat: 42.248398, lng: -83.089067 },
+			center: { lat: 42.148398, lng: -82.829067 },
 			mapTypeId: "terrain",
-			markers: [
-				{ position: { lat: 42.248398, lng: -83.089067 } },
-				// { position: { lat: -6.9127778, lng: 107.6205556 } }
-			],
+			markers: this.markers,
 			zoom: 10,
 			markerOptions: { 
 				url: require('~/assets/location-marker.png'),
@@ -212,8 +209,11 @@ export default {
                 }
 			]
 		};
-	  },
-	  
+    },
+    mounted() {
+        console.log(this.$store.getters['items/getMarkers']);
+        this.markers = this.$store.getters['items/getMarkers']
+    }
 }
 </script>
 

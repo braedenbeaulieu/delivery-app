@@ -21,6 +21,16 @@
 				v-model="newWhen"
 				ref="newItem"
 			/>
+			<input
+				type="text"
+				v-model="newLat"
+				ref="newItem"
+			/>
+			<input
+				type="text"
+				v-model="newLong"
+				ref="newItem"
+			/>
 			<input type="submit" value="Update">
 		</form>
 		<div class="buttons">
@@ -42,13 +52,17 @@ export default {
 			newItem: '',
 			newWhat: '',
 			newWhere: '',
-			newWhen: ''
+			newWhen: '',
+			newLat: 0,
+			newLong: 0
 		}
     },
     props: {
 		what: String,
 		where: String,
 		when: String,
+		lat: Number,
+		long: Number
     },
     methods: {
         startEditing() {
@@ -58,6 +72,8 @@ export default {
 				this.newWhat = this.what
 				this.newWhere = this.where
 				this.newWhen = this.when
+				this.newLat = parseFloat(this.lat)
+				this.newLong = parseFloat(this.long)
 
 				this.isEditing = true;
 				this.$nextTick(() => this.$refs.newItem.focus());
@@ -68,7 +84,9 @@ export default {
 			this.newItem = {
 				what: this.newWhat,
 				where: this.newWhere,
-				when: this.newWhen
+				when: this.newWhen,
+				lat: parseFloat(this.newLat),
+				long: parseFloat(this.newLong)
 			};
 			this.isEditing = false;
             this.$emit('on-edit', this.newItem);

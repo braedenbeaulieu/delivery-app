@@ -16,6 +16,16 @@
             placeholder="When..."
         />
         <input
+            v-model="newItemLat"
+            type="text"
+            placeholder="Lat..."
+        />
+        <input
+            v-model="newItemLong"
+            type="text"
+            placeholder="Long..."
+        />
+        <input
             type="submit"
             value="Add"
         />
@@ -28,8 +38,10 @@ export default {
         return {
             newItem: '',
             newItemLocation: '',
-            newItemTime: ''
-        };
+            newItemTime: '',
+            newItemLat: '42.248398',
+            newItemLong: '-83.089067'
+        }
     },
     methods: {
         addItem() {
@@ -37,12 +49,16 @@ export default {
                 this.$emit('on-new-item', {
                     what: this.newItem,
                     where: this.newItemLocation,
-                    when: this.newItemTime
-                });
+                    when: this.newItemTime,
+                    lat: parseFloat(this.newItemLat),
+                    long: parseFloat(this.newItemLong),
+                })
             }
-            this.newItem = '';
-            this.newItemLocation = '';
-            this.newItemTime = '';
+            this.newItem = ''
+            this.newItemLocation = ''
+            this.newItemTime = ''
+            this.newItemLat = '42.248398'
+            this.newItemLong = '-83.089067'
         }
     }
 };

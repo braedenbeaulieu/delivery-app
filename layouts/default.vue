@@ -13,7 +13,7 @@ import Navbar from '@/components/Navbar'
 export default {
     components: {
         Navbar
-    }
+	}
 }
 </script>
 
@@ -21,6 +21,7 @@ export default {
 	* {
 		font-family: 'Nunito', 'Roboto', sans-serif;
 	}
+
 	html {
 		box-sizing: border-box;
 		font-size: 16px;
@@ -51,12 +52,11 @@ export default {
     
 	.main-content {
 		width: 100%;
-		height: calc(100vh - 45px);
+		height: calc(100vh - 70px);
 		background: #333;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-	}
-        
+	}   
 </style>

@@ -26,7 +26,7 @@
 <script>
 import Item from '@/components/List/Item.vue'
 import CreateItem from '@/components/List/CreateItem.vue'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
     name: 'List',

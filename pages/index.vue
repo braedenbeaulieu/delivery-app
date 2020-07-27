@@ -211,8 +211,30 @@ export default {
 		};
     },
     mounted() {
-        console.log(this.$store.getters['items/getMarkers']);
+        // console.log(this.$store.getters['items/getMarkers']);
         this.markers = this.$store.getters['items/getMarkers']
+
+        if(this.$route.query.list) {
+            let decrypted = CryptoJS.AES.decrypt(this.$route.query.list, 'Secret Passphrase')
+            let queryItems = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
+            
+            queryItems.forEach((item) => {
+                this.addItem(item)
+            })
+        }
+    },
+    methods: {
+        addItem(newItem) {
+            // this.items.push();
+
+            this.$store.commit('items/add', { 
+                what: newItem.what,
+                where: newItem.where,
+                when: newItem.when,
+                lat: newItem.lat,
+                long: newItem.long
+            })
+        }
     }
 }
 </script>

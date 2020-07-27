@@ -33,7 +33,7 @@ export default {
 
             let encrypted = CryptoJS.AES.encrypt(JSON.stringify(obj), "Secret Passphrase");
 
-            let copyText = window.location.hostname + '/list?list=' + encodeURIComponent(encrypted)
+            let copyText = '?list=' + encodeURIComponent(encrypted)
             let testingCodeToCopy = document.querySelector('#copyText')
             testingCodeToCopy.setAttribute('value', copyText)
             testingCodeToCopy.setAttribute('type', 'text')

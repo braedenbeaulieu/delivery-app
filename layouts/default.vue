@@ -52,7 +52,7 @@ export default {
     
 	.main-content {
 		width: 100%;
-		height: calc(100vh - 70px);
+		height: calc(100vh - 100px);
 		background: #333;
 		display: flex;
 		flex-direction: column;

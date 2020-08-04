@@ -15,16 +15,16 @@
             type="text"
             placeholder="When..."
         />
-        <input
-            v-model="newItemLat"
-            type="text"
-            placeholder="Lat..."
-        />
-        <input
-            v-model="newItemLong"
-            type="text"
-            placeholder="Long..."
-        />
+        <div class="pick-up-drop-off">
+            <div class="radio-button">
+                <input type="radio" id="dropoff" name="pick-up-drop-off" value="Drop Off" v-model="newPickDrop">
+                <label for="dropoff">Drop Off</label><br>
+            </div>
+            <div class="radio-button">
+                <input type="radio" id="pickup" name="pick-up-drop-off" value="Pick Up" v-model="newPickDrop">
+                <label for="pickup">Pick Up</label><br>
+            </div>
+        </div>
         <input
             type="submit"
             value="Add"
@@ -33,32 +33,51 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
         return {
-            newItem: '',
-            newItemLocation: '',
-            newItemTime: '',
-            newItemLat: '42.248398',
-            newItemLong: '-83.089067'
+            newItem: 'asdasd',
+            newItemLocation: '159 Ramblewood Dr. Lasalle ON',
+            newItemTime: '8:00 AM',
+            newItemLat: '',
+            newItemLong: '',
+            newPickDrop: 'Drop Off'
         }
     },
     methods: {
         addItem() {
-            if(this.newItem.length > 0 && this.newItemLocation.length > 0 && this.newItemTime.length > 0) {
-                this.$emit('on-new-item', {
-                    what: this.newItem,
-                    where: this.newItemLocation,
-                    when: this.newItemTime,
-                    lat: parseFloat(this.newItemLat),
-                    long: parseFloat(this.newItemLong),
-                })
-            }
-            this.newItem = ''
-            this.newItemLocation = ''
-            this.newItemTime = ''
-            this.newItemLat = '42.248398'
-            this.newItemLong = '-83.089067'
+
+            let location = this.newItemLocation.replace(/ /g, '+')
+
+            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${process.env.VUE_APP_GOOGLE_MAPS_API_KEY}`)
+            .then(res => {
+                this.newItemLat = res.data.results[0].geometry.location.lat
+                this.newItemLong = res.data.results[0].geometry.location.lng
+
+                // console.log(this.newItemLocation.replace(/ /g, '+'))
+                // console.log(this.newItemLat);
+                // console.log(this.newPickDrop);
+
+                if(this.newItem.length > 0 && this.newItemLocation.length > 0 && this.newItemTime.length > 0) {
+                    this.$emit('on-new-item', {
+                        what: this.newItem,
+                        where: this.newItemLocation,
+                        when: this.newItemTime,
+                        lat: parseFloat(this.newItemLat),
+                        long: parseFloat(this.newItemLong),
+                        pickDrop: this.newPickDrop
+                    })
+                }
+                // this.newItem = ''
+                // this.newItemLocation = ''
+                // this.newItemTime = ''
+                // this.newItemLat = ''
+                // this.newItemLong = ''
+            })
+
+            
         }
     }
 };
@@ -79,6 +98,16 @@ export default {
             &:focus {
                 outline: none;
                 border-color: #6C69D2;
+            }
+        }
+
+        .pick-up-drop-off {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .radio-button {
+                margin: 20px;
             }
         }
         

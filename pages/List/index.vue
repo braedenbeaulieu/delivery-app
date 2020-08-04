@@ -15,6 +15,7 @@
             :when="item.when"
             :lat="item.lat"
             :long="item.long"
+            :pickDrop="item.pickDrop"
             @on-toggle="toggleItem(item)"
             @on-delete="deleteItem(item)"
             @on-edit="editItem(item, $event)"
@@ -51,6 +52,7 @@ export default {
     },
     methods: {
         addItem(newItem) {
+            console.log(newItem);
             // this.items.push();
 
             this.$store.commit('items/add', { 
@@ -58,7 +60,8 @@ export default {
                 where: newItem.where,
                 when: newItem.when,
                 lat: newItem.lat,
-                long: newItem.long
+                long: newItem.long,
+                pickDrop: newItem.pickDrop
             })
         },
         deleteItem(deletedItem) {
@@ -91,6 +94,11 @@ export default {
             font-weight: bold;
             font-size: 30px;
             margin-bottom: 20px;
+        }
+
+        ul {
+            overflow-y: scroll;
+            height: 378px;
         }
     }
 </style>

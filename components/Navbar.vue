@@ -12,56 +12,28 @@
             </svg>
             <p>List</p>
         </nuxt-link>
-        <button v-on:click="copyToClipboard()">
+        <!-- <nuxt-link to="/share">
             <svg viewBox="0 0 100 100">
                 <path d="m54.168 16.328v14.922h25.02c4.5898 0 8.3125 3.7266 8.3125 8.3086v50.051c0 4.5859-3.7188 8.3086-8.3125 8.3086h-58.375c-4.5898 0-8.3125-3.7266-8.3125-8.3086v-50.051c0-4.5898 3.7188-8.3086 8.3125-8.3086h25.02v-14.934l-4.7031 4.7031c-1.6133 1.6133-4.2305 1.6133-5.8672-0.027343-1.6289-1.625-1.6172-4.2734-0.027344-5.8633l11.84-11.84c0.80078-0.80078 1.8516-1.2031 2.9062-1.207l0.03125 0.015625c1.0586 0 2.1094 0.39844 2.9023 1.1914l11.836 11.84c1.6133 1.6133 1.6133 4.2266-0.023438 5.8633-1.6289 1.6289-4.2773 1.6172-5.8672 0.027343zm-8.3359 23.254h-25v50h58.336v-50h-25v16.676c0 2.2969-1.8516 4.1602-4.168 4.1602-2.3008 0-4.168-1.8672-4.168-4.1602zm-12.5-8.332v8.332h33.336v-8.332zm12.5 0h8.3359v8.332h-8.3359z"/>
             </svg>
             <p>Share</p>
-        </button>
-        <input type="text" id="copyText">
+        </nuxt-link> -->
     </div>
 </template>
 <script>
 export default {
-    methods: {
-        copyToClipboard() {
-            let obj = [
-                { what: '4 Tents', where: 'Essex', when: '10:30 AM', lat: 42.1727, long: -82.8189 },
-                { what: '10 Bouncy Castles', where: 'Windsor', when: '4:30 PM', lat: 42.3149, long: -83.0364 },
-                { what: '2 Flamingos', where: 'Amherstburg', when: '1:15 PM', lat: 42.1014, long: -83.1087 },
-            ]
-
-            let encrypted = CryptoJS.AES.encrypt(JSON.stringify(obj), "Secret Passphrase");
-
-            let copyText = '?list=' + encodeURIComponent(encrypted)
-            let testingCodeToCopy = document.querySelector('#copyText')
-            testingCodeToCopy.setAttribute('value', copyText)
-            testingCodeToCopy.setAttribute('type', 'text')
-            testingCodeToCopy.select()
-
-            try {
-                var successful = document.execCommand('copy');
-                var msg = successful ? 'successful' : 'unsuccessful';
-                console.log(copyText);
-            } catch (err) {
-                // alert('Oops, unable to copy');
-            }
-
-            /* unselect the range */
-            testingCodeToCopy.setAttribute('type', 'hidden')
-            window.getSelection().removeAllRanges()
-        }
-    }
 }
 </script>
 <style lang="scss">
     .bb-navbar {
         background: #222;
         width: 100%;
-        height: 70px;
+        height: 100px;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        position: absolute;
+        z-index: 10;
 
         a, button {
             display: flex;
@@ -99,15 +71,6 @@ export default {
                 padding-bottom: 7.5px;
                 text-decoration: none;
             }
-        }
-
-
-
-        #copyText {
-            width: 1px;
-            height: 1px;
-            position: absolute;
-            right: 9999px;
         }
     }
 </style>

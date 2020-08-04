@@ -9,7 +9,8 @@ export const mutations = {
             where: item.where,
             when: item.when,
             lat: item.lat,
-            long: item.long
+            long: item.long,
+            pickDrop: item.pickDrop
         })
     },
     remove(state, { item }) {
@@ -21,6 +22,7 @@ export const mutations = {
         item.when = updatedItem.when;
         item.lat = updatedItem.lat;
         item.long = updatedItem.long;
+        item.pickDrop = updatedItem.pickDrop
     },
     // getCoordinates(state) {
     //     state.list.forEach((item) => {
@@ -39,6 +41,12 @@ export const getters = {
             // console.log(data);
 
             markers.push({ 
+                item: {
+                    what: item.what,
+                    where: item.where,
+                    when: item.when,
+                    pickDrop: item.pickDrop
+                },
                 position: { lat: item.lat, lng: item.long } 
             })
         })

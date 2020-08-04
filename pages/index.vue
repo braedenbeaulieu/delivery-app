@@ -17,10 +17,18 @@
 			v-for="(item, index) in markers"
 			:key="index"
 			:position="item.position"
-			@click="center = item.position"
+			@click="center = item.position; toggleInfo(item)"
 			:icon="markerOptions"
 		/>
 		</gmap-map>
+
+        <div class="infoWindow " v-bind:class="{active: isActive}">
+            <div class="close" @click="toggleInfo()">x</div>
+            <p>{{ what }}</p>
+			<p>{{ where }}</p>
+			<p>{{ when }}</p>
+			<p>{{ pickDrop }}</p>
+        </div>
 	</div>
         
 </template>
@@ -32,10 +40,18 @@ export default {
     },
     data() {
 		return {
-			center: { lat: 42.148398, lng: -82.829067 },
+            what: '',
+            where: '',
+            when: '',
+            pickDrop: '',
+            isActive: false,
+            active: 'active',
+
+            // map stuff
+			center: { lat: 42.148398, lng: -82.780067 },
 			mapTypeId: "terrain",
 			markers: this.markers,
-			zoom: 10,
+			zoom: 9.5,
 			markerOptions: { 
 				url: require('~/assets/location-marker.png'),
 				size: {width: 25, height: 30, f: 'px', b: 'px',},
@@ -213,15 +229,6 @@ export default {
     mounted() {
         // console.log(this.$store.getters['items/getMarkers']);
         this.markers = this.$store.getters['items/getMarkers']
-
-        if(this.$route.query.list) {
-            let decrypted = CryptoJS.AES.decrypt(this.$route.query.list, 'Secret Passphrase')
-            let queryItems = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
-            
-            queryItems.forEach((item) => {
-                this.addItem(item)
-            })
-        }
     },
     methods: {
         addItem(newItem) {
@@ -232,8 +239,21 @@ export default {
                 where: newItem.where,
                 when: newItem.when,
                 lat: newItem.lat,
-                long: newItem.long
+                long: newItem.long,
+                placeDrop: newItem.placeDrop
             })
+        },
+        toggleInfo(item = null) {
+            this.isActive = !this.isActive
+
+            if(item) {
+                console.log(item);
+                this.what = item.item.what
+                this.where = item.item.where
+                this.when = item.item.when
+                this.pickDrop = item.item.pickDrop
+            }
+
         }
     }
 }
@@ -244,9 +264,45 @@ export default {
 		// background: purple;
 		width: 100%;
 		height: 100%;
+        position: relative;
 
 		.vue-map-container {
 			height: 100%;
 		}
+
+        .infoWindow {
+            position: fixed;
+            left: 0;
+            right: 0;
+            width: 100vw;
+            // height: 160px;
+            background: white;
+            padding: 25px;
+            bottom: -300px;
+            transition: all .3s;
+
+            &.active {
+                bottom: 100px;
+            }
+            
+            p {
+                color: rgba(0, 0, 0, .8)!important;
+                font-weight: bold;
+                display: block;
+                margin-bottom: 15px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            .close {
+                position: absolute;
+                right: 15px;
+                top: 5px;
+                font-size: 25px;
+                color: black!important;
+            }
+        }
     }
 </style>

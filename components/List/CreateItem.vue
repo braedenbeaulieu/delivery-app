@@ -38,9 +38,12 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            newItem: 'asdasd',
-            newItemLocation: '159 Ramblewood Dr. Lasalle ON',
-            newItemTime: '8:00 AM',
+            // newItem: 'asdasd',
+            // newItemLocation: '159 Ramblewood Dr. Lasalle ON',
+            // newItemTime: '8:00 AM',
+            newItem: '',
+            newItemLocation: '',
+            newItemTime: '',
             newItemLat: '',
             newItemLong: '',
             newPickDrop: 'Drop Off'

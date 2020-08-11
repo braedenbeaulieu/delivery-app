@@ -227,7 +227,7 @@ export default {
 		};
     },
     mounted() {
-        // console.log(this.$store.getters['items/getMarkers']);
+        console.log(this.$store.getters['items/getMarkers']);
         this.markers = this.$store.getters['items/getMarkers']
     },
     methods: {

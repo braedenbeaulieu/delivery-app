@@ -36,8 +36,6 @@ export const getters = {
         let markers = []
 
         state.list.forEach((item) => {
-            
-            // const data = axios.get('https://maps.googleapis.com/maps/api/geocode/json?address=159+Ramblewood+dr&key=AIzaSyDAh4iaPMt9pE2E2BpFVg5gA5Ae8uis8qs') // ' + process.env.VUE_APP_GOOGLE_MAPS_API_KEY)
             // console.log(data);
 
             markers.push({ 
